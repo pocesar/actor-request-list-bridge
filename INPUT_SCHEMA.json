@@ -1,0 +1,58 @@
+{
+    "title": "RequestList Bridge",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "taskId": {
+            "title": "Task ID",
+            "type": "string",
+            "description": "Unique task ID",
+            "editor": "textfield"
+        },
+        "requestListSources": {
+            "title": "RequestList sources",
+            "description": "The sources to pass to the target actor",
+            "example": [{ "url": "http://apify.com/url" }],
+            "type": "array",
+            "editor": "requestListSources"
+        },
+        "targetStartUrlsProperty": {
+            "title": "Start URLs property",
+            "type": "string",
+            "description": "Usually it's startUrls",
+            "default": "startUrls",
+            "example": "startUrls",
+            "prefill": "startUrls",
+            "editor": "textfield"
+        },
+        "plainArray": {
+            "title": "Plain array",
+            "type": "boolean",
+            "description": "Target startUrls uses plain arrays instead a requestSource list"
+        },
+        "extraInput": {
+            "title": "Extra input",
+            "type": "object",
+            "description": "Provide extra input to be passed to the target",
+            "example": {
+                "hello": "world"
+            },
+            "editor": "json"
+        },
+        "actorId": {
+            "title": "Actor ID",
+            "type": "string",
+            "description": "For metamorph, need to provide an actor ID",
+            "editor": "textfield"
+        },
+        "useMetamorph": {
+            "title": "Use metamorph",
+            "type": "boolean",
+            "description": "Use metamorph instead of Apify.callTask"
+        }
+    },
+    "required": [
+        "targetStartUrlsProperty",
+        "requestListSources"
+    ]
+}
