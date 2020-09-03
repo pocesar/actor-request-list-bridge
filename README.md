@@ -1,6 +1,9 @@
 # RequestList Bridge
 
-A workaround to provide `requestsFromUrl` to existing actors that doesn't support it natively.
+Allows you to filter (thus cleaning up your list) and append new data to those requests before
+sending to your target task.
+
+Also enables a workaround to provide `requestsFromUrl` to existing actors that dont't support it natively.
 
 ## Example
 
@@ -30,6 +33,18 @@ Target task accepts `RequestQueue` only:
         }
     ],
     "targetStartUrlsProperty": "startUrls"
+}
+```
+
+Filter out and transform the requests:
+
+```js
+{
+    filter: (req) => /apify/i.test(req.url),
+    map: (req) => {
+        req.userData.isMapped = true;
+        return req;
+    },
 }
 ```
 

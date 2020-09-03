@@ -49,6 +49,27 @@
             "title": "Use metamorph",
             "type": "boolean",
             "description": "Use metamorph instead of Apify.callTask"
+        },
+        "map": {
+            "title": "Transform requests",
+            "description": "Transform each request before passing to the target task. Useful to add userData or change uniqueKey. This happens after filter.",
+            "type": "string",
+            "prefill": "(req) => {\n\treturn req;\n}",
+            "editor": "javascript"
+        },
+        "filter": {
+            "title": "Filter requests",
+            "description": "Filter each request before passing to the target task. This happens before map.",
+            "type": "string",
+            "prefill": "(req) => {\n\treturn true;\n}",
+            "editor": "javascript"
+        },
+        "limit": {
+            "title": "Limit",
+            "description": "Limit the amount of urls",
+            "type": "integer",
+            "editor": "number",
+            "nullable": true
         }
     },
     "required": [

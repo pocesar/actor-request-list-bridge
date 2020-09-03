@@ -11,6 +11,9 @@ Apify.main(async () => {
         extraInput = {},
         useMetamorph = false,
         plainArray = false,
+        map,
+        filter,
+        limit,
     } = await Apify.getInput();
 
     if (!actorId && !taskId) {
@@ -26,11 +29,23 @@ Apify.main(async () => {
     }
 
     const rl = await Apify.openRequestList(null, requestListSources);
+    const mapFn = typeof map === 'string' && map ? eval(map) : null;
+    const filterFn = typeof filter === 'string' && filter ? eval(filter) : null;
     const sources = [];
     let req;
+    let count = 0;
 
     while (req = await rl.fetchNextRequest()) {
-        sources.push(plainArray ? req.url : req);
+        if (filterFn && !filterFn(req)) {
+            continue;
+        }
+
+        const mapped = mapFn ? mapFn(req) : req;
+        sources.push(plainArray ? mapped.url : mapped);
+
+        if (limit && ++count >= limit) {
+            break;
+        }
     }
 
     if (useMetamorph) {
