@@ -48,8 +48,11 @@ Apify.main(async () => {
         }
     }
 
+    let runLink = '';
+
     if (useMetamorph) {
         log.info(`Metamorphing into ${actorId} with ${sources.length} urls`);
+
         await Apify.metamorph(actorId, {
             ...extraInput,
             [targetStartUrlsProperty]: sources,
@@ -57,11 +60,15 @@ Apify.main(async () => {
     } else {
         log.info(`Starting task ${taskId} with ${sources.length} urls`);
 
-        await Apify.callTask(taskId, {
+        const task = await Apify.callTask(taskId, {
             ...extraInput,
             [targetStartUrlsProperty]: sources,
         }, { waitSecs: 0 });
+
+        runLink = `https://my.apify.com/tasks/${taskId}#/runs/${task.id}`;
     }
 
-    log.info('Done');
+    await Apify.setValue('OUTPUT', runLink);
+
+    log.info(`Done, your results are elsewhere in ${runLink}`);
 });
